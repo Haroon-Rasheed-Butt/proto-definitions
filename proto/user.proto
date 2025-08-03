@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package example;
+
+option java_package = "com.example.proto";
+option java_outer_classname = "UserProto";
+
+message User {
+  int32 id = 1;
+  string name = 2;
+  string email = 3;
+  bool is_active = 4;
+}
