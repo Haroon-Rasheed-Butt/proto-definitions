@@ -82,7 +82,7 @@ jobs:
           EOF
 
           # Build and deploy the JAR to GitHub Maven Packages
-          mvn -B package deploy
+          mvn -X -B package deploy
 
       # Step 5: Set up Node.js and link to GitHub NPM registry
       - name: Set up Node.js
