@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - master
-#    paths:
-#      - 'proto/**.proto'
+    paths:
+      - 'proto/**.proto'
 
 jobs:
   build-and-publish:
