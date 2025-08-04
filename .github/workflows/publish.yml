@@ -20,13 +20,12 @@ jobs:
 
       - name: Generate Code via Docker
         run: |
-          docker build -t proto-generator .
-          docker create --name temp-proto-container proto-generator
-          mkdir -p output
-          docker cp temp-proto-container:/generated/. ./output
-          docker rm temp-proto-container
+          docker build -t proto-builder .
+          docker create --name temp-builder proto-builder
+          docker cp temp-builder:/generated/ ./output/
+          docker rm temp-builder
 
-      - name: Set up JDK 17
+      - name: Set up JDK 17 for Java
         uses: actions/setup-java@v4
         with:
           java-version: '17'
@@ -37,20 +36,25 @@ jobs:
           cd output/java
           cat <<EOF > pom.xml
           <project xmlns="http://maven.apache.org/POM/4.0.0"
-                   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-              <modelVersion>4.0.0</modelVersion>
-              <groupId>com.example.proto</groupId>
-              <artifactId>order-proto-java</artifactId>
-              <version>1.0.${{ github.run_number }}</version>
-              <packaging>jar</packaging>
-              <distributionManagement>
-                  <repository>
-                      <id>github</id>
-                      <name>GitHub ${{ github.repository_owner }} Apache Maven Packages</name>
-                      <url>https://maven.pkg.github.com/${{ github.repository }}</url>
-                  </repository>
-              </distributionManagement>
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+            <modelVersion>4.0.0</modelVersion>
+            <groupId>com.example.proto</groupId>
+            <artifactId>order-proto-java</artifactId>
+            <version>1.0.${{ github.run_number }}</version>
+            <packaging>jar</packaging>
+            <name>Order Proto Java</name>
+            <url>https://github.com/${{ github.repository }}</url>
+            <build>
+              <sourceDirectory>.</sourceDirectory>
+            </build>
+            <distributionManagement>
+              <repository>
+                <id>github</id>
+                <name>GitHub ${{ github.repository_owner }} Apache Maven Packages</name>
+                <url>https://maven.pkg.github.com/${{ github.repository }}</url>
+              </repository>
+            </distributionManagement>
           </project>
           EOF
           mvn -B package deploy
@@ -60,7 +64,7 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '18'
+          node-version: '20.x'
           registry-url: 'https://npm.pkg.github.com/'
           scope: '@${{ github.repository_owner }}'
 
@@ -71,7 +75,8 @@ jobs:
           {
             "name": "@${{ github.repository_owner }}/order-proto-ts",
             "version": "1.0.${{ github.run_number }}",
-            "repository": "https://github.com/${{ github.repository }}.git"
+            "main": "order_pb.js",
+            "types": "order_pb.d.ts"
           }
           EOF
           npm publish
