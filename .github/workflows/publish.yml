@@ -36,11 +36,14 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
+          server-id: github
+          server-username: github_actor
+          server-password: GITHUB_TOKEN
 
-          # These credentials are used by Maven's deploy plugin internally
-          server-id: github                     # This must match <id>github</id> in pom.xml
-          server-username: ${{ github.actor }}  # GitHub username (injected automatically)
-          server-password: ${{ secrets.GITHUB_TOKEN }}  # GitHub token (injected automatically)
+#          # These credentials are used by Maven's deploy plugin internally
+#          server-id: github                     # This must match <id>github</id> in pom.xml
+#          server-username: ${{ github.actor }}  # GitHub username (injected automatically)
+#          server-password: ${{ secrets.GITHUB_TOKEN }}  # GitHub token (injected automatically)
 
       # Step 4: Publish Java artifact to GitHub Packages (jar)
       - name: Publish Java Artifact to GitHub Packages
