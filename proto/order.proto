@@ -1,6 +1,4 @@
-
 syntax = "proto3";
-
 package example;
 
 option java_package = "com.example.proto";

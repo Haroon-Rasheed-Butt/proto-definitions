@@ -3,7 +3,7 @@ name: Publish Proto Artifacts
 on:
   push:
     branches:
-      - main
+      - master
     paths:
       - 'proto/**.proto'
 
