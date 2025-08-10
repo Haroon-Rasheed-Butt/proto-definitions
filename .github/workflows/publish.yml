@@ -4,8 +4,8 @@ on:
   push:
     branches:
       - master
-    paths:
-      - 'proto/**.proto'
+    # paths:
+    #   - 'proto/**.proto'
 
 jobs:
   build-and-publish:
@@ -22,7 +22,7 @@ jobs:
         run: |
           docker build -t proto-builder .
           docker create --name temp-builder proto-builder
-          docker cp temp-builder:/generated ./output
+          docker cp temp-builder:app/generated ./output
           docker rm temp-builder
 
       - name: Set up JDK 17
