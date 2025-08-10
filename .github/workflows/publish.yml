@@ -48,10 +48,10 @@ jobs:
               xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
             <modelVersion>4.0.0</modelVersion>
             <groupId>com.example.proto</groupId>
-            <artifactId>order-proto-java</artifactId>
+            <artifactId>proto-definitions-java</artifactId>
             <version>1.0.${{ github.run_number }}</version>
             <packaging>jar</packaging>
-            <name>Order Proto Java</name>
+            <name>Proto Definitions - Java</name>
             <url>https://github.com/${{ github.repository }}</url>
 
             <dependencies>
@@ -89,18 +89,31 @@ jobs:
       - name: Publish TypeScript Artifact to GitHub Packages
         run: |
           cd output/ts
-          cp ../json/*.json .
+          cp ../json/*.json . # Copy schema files
+
+          # Create index files to export all generated modules, making them easy to import.
+          for f in *_pb.js; do
+            module_name=$(basename "$f" .js)
+            echo "export * from './${module_name}';" >> index.js
+            echo "export * from './${module_name}';" >> index.d.ts
+          done
+
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > .npmrc
           cat <<EOF > package.json
           {
-            "name": "@${{ github.repository_owner }}/order-proto-ts",
+            "name": "@${{ github.repository_owner }}/proto-definitions-ts",
             "version": "1.0.${{ github.run_number }}",
-            "main": "order_pb.js",
-            "types": "order_pb.d.ts",
+            "main": "index.js",
+            "types": "index.d.ts",
             "repository": {
               "type": "git",
               "url": "git+https://github.com/${{ github.repository }}.git"
             },
+            "files": [
+              "*.js",
+              "*.d.ts",
+              "*.json"
+            ],
             "publishConfig": {
               "registry": "https://npm.pkg.github.com/"
             },
