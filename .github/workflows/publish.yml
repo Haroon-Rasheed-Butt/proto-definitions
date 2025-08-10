@@ -34,6 +34,7 @@ jobs:
       - name: Publish Java Artifact to GitHub Packages
         run: |
           cd output/java
+          cp ../json/*.schema.json .
           cat <<EOF > pom.xml
           <project xmlns="http://maven.apache.org/POM/4.0.0"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
@@ -81,6 +82,7 @@ jobs:
       - name: Publish TypeScript Artifact to GitHub Packages
         run: |
           cd output/ts
+          cp ../json/*.schema.json .
           echo "//npm.pkg.github.com/:_authToken=${{ secrets.GITHUB_TOKEN }}" > .npmrc
           cat <<EOF > package.json
           {
