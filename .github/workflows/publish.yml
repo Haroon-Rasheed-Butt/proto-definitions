@@ -22,8 +22,13 @@ jobs:
         run: |
           docker build -t proto-builder .
           docker create --name temp-builder proto-builder
-          docker cp temp-builder:/app/generated/. ./output
+          docker cp temp-builder:/app/generated ./output
           docker rm temp-builder
+
+      - name: Debug Directory Structure
+        run: |
+          echo "--- Listing contents of the 'output' directory recursively ---"
+          ls -R output
 
       - name: Set up JDK 17
         uses: actions/setup-java@v4

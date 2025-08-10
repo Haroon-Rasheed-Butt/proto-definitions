@@ -38,12 +38,3 @@ RUN if ls ./proto/*.proto >/dev/null 2>&1; then \
       echo "No .proto files found in ./proto directory"; \
       exit 1; \
     fi
-
-# Final stage to collect generated files
-FROM alpine:latest
-WORKDIR /app/generated
-
-# Copy generated files from the builder
-COPY --from=builder /app/generated/ts ./ts
-COPY --from=builder /app/generated/java ./java
-COPY --from=builder /app/generated/json ./json
