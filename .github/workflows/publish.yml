@@ -18,11 +18,13 @@ jobs:
       - name: Checkout Repo
         uses: actions/checkout@v4
 
-      - name: Generate Code via Docker
+      - name: Clean, Build, and Generate Artifacts
         run: |
+          rm -rf ./output
           docker build -t proto-builder .
           docker create --name temp-builder proto-builder
-          docker cp temp-builder:/app/generated ./output
+          # The trailing '/.' is crucial: it copies the *contents* of the directory
+          docker cp temp-builder:/app/generated/. ./output
           docker rm temp-builder
 
       - name: Debug Directory Structure
@@ -39,7 +41,7 @@ jobs:
       - name: Publish Java Artifact to GitHub Packages
         run: |
           cd output/java
-          cp ../json/*.json .
+          cp ../json/*.json . # This will now work because ../json exists
           cat <<EOF > pom.xml
           <project xmlns="http://maven.apache.org/POM/4.0.0"
               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
