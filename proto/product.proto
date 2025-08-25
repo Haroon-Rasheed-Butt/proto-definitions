@@ -1,0 +1,16 @@
+syntax = "proto3";
+
+package example;
+
+import "proto/tag.proto";
+
+option java_package = "com.example.proto";
+option java_outer_classname = "ProductProto";
+
+message Product {
+  int64 product_id = 1;
+  string name = 2;
+  string description = 3;
+  double price = 4;
+  repeated Tag tags = 5; // Many-to-many relationship with Tag
+}

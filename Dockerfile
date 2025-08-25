@@ -26,7 +26,7 @@ RUN npm install -g ts-protoc-gen
 RUN mkdir -p ./proto ./generated/ts ./generated/java ./generated/json
 
 # Copy proto files
-COPY proto/*.proto ./proto/
+COPY proto/ ./proto/
 
 # Generate TypeScript, Java, and JSON Schema files
 # Check if proto files exist first

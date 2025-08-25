@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package example;
+
+option java_package = "com.example.proto";
+option java_outer_classname = "UserProfileProto";
+
+message UserProfile {
+  int64 profile_id = 1;
+  string bio = 2;
+  string avatar_url = 3;
+  int32 user_id = 4; // Foreign key to User
+}

@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package example;
+
+option java_package = "com.example.proto";
+option java_outer_classname = "TagProto";
+
+message Tag {
+  int32 tag_id = 1;
+  string name = 2;
+}

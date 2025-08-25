@@ -1,20 +1,17 @@
 syntax = "proto3";
 package example;
 
+import "proto/product.proto";
+
 
 option java_package = "com.example.proto";
 option java_outer_classname = "OrderProto";
 
 message Order {
   int64 order_id = 1;
-  string user_id = 2;
-  Item item = 3;
+  int32 user_id = 2; // Foreign Key to User
+  repeated Product items = 3;
   Status status = 4;
-
-  message Item {
-    string name = 1;
-    double price = 2;
-  }
 
   enum Status {
     PENDING = 0;
