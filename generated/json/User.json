@@ -1,0 +1,135 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/User",
+    "definitions": {
+        "User": {
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "email": {
+                    "type": "string"
+                },
+                "is_active": {
+                    "type": "boolean"
+                },
+                "user_profile": {
+                    "$ref": "#/definitions/example.UserProfile",
+                    "additionalProperties": true,
+                    "description": "One-to-one relationship"
+                },
+                "orders": {
+                    "items": {
+                        "$ref": "#/definitions/example.Order"
+                    },
+                    "type": "array",
+                    "description": "One-to-many relationship"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "User"
+        },
+        "example.Order": {
+            "properties": {
+                "order_id": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer",
+                    "description": "Foreign Key to User"
+                },
+                "items": {
+                    "items": {
+                        "$ref": "#/definitions/example.Product"
+                    },
+                    "type": "array"
+                },
+                "status": {
+                    "enum": [
+                        "PENDING",
+                        0,
+                        "SHIPPED",
+                        1,
+                        "DELIVERED",
+                        2
+                    ],
+                    "oneOf": [
+                        {
+                            "type": "string"
+                        },
+                        {
+                            "type": "integer"
+                        }
+                    ],
+                    "title": "Status"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Order"
+        },
+        "example.Product": {
+            "properties": {
+                "product_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "tags": {
+                    "items": {
+                        "$ref": "#/definitions/example.Tag"
+                    },
+                    "type": "array",
+                    "description": "Many-to-many relationship with Tag"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Product"
+        },
+        "example.Tag": {
+            "properties": {
+                "tag_id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Tag"
+        },
+        "example.UserProfile": {
+            "properties": {
+                "profile_id": {
+                    "type": "string"
+                },
+                "bio": {
+                    "type": "string"
+                },
+                "avatar_url": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "type": "integer",
+                    "description": "Foreign key to User"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "User Profile"
+        }
+    }
+}

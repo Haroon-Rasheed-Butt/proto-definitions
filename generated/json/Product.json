@@ -1,0 +1,45 @@
+{
+    "$schema": "http://json-schema.org/draft-04/schema#",
+    "$ref": "#/definitions/Product",
+    "definitions": {
+        "Product": {
+            "properties": {
+                "product_id": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "description": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "tags": {
+                    "items": {
+                        "$ref": "#/definitions/example.Tag"
+                    },
+                    "type": "array",
+                    "description": "Many-to-many relationship with Tag"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Product"
+        },
+        "example.Tag": {
+            "properties": {
+                "tag_id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true,
+            "type": "object",
+            "title": "Tag"
+        }
+    }
+}

@@ -2,7 +2,7 @@ syntax = "proto3";
 
 package example;
 
-import "proto/tag.proto";
+import "tag.proto";
 
 option java_package = "com.example.proto";
 option java_outer_classname = "ProductProto";

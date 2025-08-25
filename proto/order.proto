@@ -1,7 +1,7 @@
 syntax = "proto3";
 package example;
 
-import "proto/product.proto";
+import "product.proto";
 
 
 option java_package = "com.example.proto";

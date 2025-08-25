@@ -2,8 +2,12 @@ syntax = "proto3";
  
 package example;
 
-import "proto/order.proto";
-import "proto/user_profile.proto";
+// import "proto/order.proto";
+// import "proto/user_profile.proto";
+import "order.proto";
+import "user_profile.proto";
+
+
 
 option java_package = "com.example.proto";
 option java_outer_classname = "UserProto";
